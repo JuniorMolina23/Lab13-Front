@@ -1,0 +1,64 @@
+<div class="container mt-4">
+    <h2>Musica</h2>
+    <form [formGroup]="myForm"
+        (ngSubmit)="currentItem._id ? updateItem(currentItem._id, currentItem) : createItem(currentItem)">
+        <div class="form-group">
+            <label for="title">Nombre de la Cancion:</label>
+            <input formControlName="name" type="text" class="form-control" [(ngModel)]="currentItem.name" name="name">
+        </div>
+
+        <div class="form-group">
+            <label for="artist">Artista:</label>
+            <input formControlName="artist" type="text" class="form-control" [(ngModel)]="currentItem.artist"
+                name="artist">
+        </div>
+
+        <div class="form-group">
+            <label for="genre">Genero:</label>
+            <input formControlName="genero" type="text" class="form-control" [(ngModel)]="currentItem.genero"
+                name="genre">
+        </div>
+
+        <div class="form-group">
+            <label for="duration">Duración:</label>
+            <input formControlName="time" type="time" class="form-control" [(ngModel)]="currentItem.time" name="time">
+            <div *ngIf="myForm.get('time')?.invalid && myForm.get('time')?.errors?.['invalidTime']" class="text-danger">
+                *La hora debe ser mayor a un minuto.
+            </div>
+        </div>
+
+        <div class="container text-center">
+            <br>
+            <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">{{currentItem._id ? 'Update' :
+                'Add'}}</button>
+        </div>
+    </form>
+
+
+    <hr>
+
+    <!-- Lista de items -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Cancion</th>
+                <th>Artista</th>
+                <th>Genero</th>
+                <th>Duracion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of items">
+                <td>{{ item.name }}</td>
+                <td>{{ item.artist }}</td>
+                <td>{{ item.genero }}</td>
+                <td>{{ item.time }}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" (click)="editItem(item._id)">Edit</button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteItem(item._id)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
